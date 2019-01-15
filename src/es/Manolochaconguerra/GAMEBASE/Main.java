@@ -9,6 +9,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -20,10 +22,10 @@ import javafx.stage.Stage;
  * @author Manuel Jose chacon Guerra
  */
 public class Main extends Application {
-    
+    Pane root = new Pane();
     int navegarX = 0;
     int navegarY = 0;       
-            
+    Color colorFondo = Color.rgb(158, 251, 252);       
     @Override
     public void start(Stage primaryStage) {
         
@@ -51,7 +53,21 @@ public class Main extends Application {
         popa.setFill(Color.BROWN);
         mastil.setFill(Color.BROWN);
         vela.setFill(Color.BLUE);
+        
+        //insertar imagen 
+        Image agua = new Image(getClass().getResourceAsStream("Imagenes/agua.png"));
+        Image montaña = new Image(getClass().getResourceAsStream("Imagenes/montaña.png"));
+        //Insertar magen
+        ImageView imageViewagua = new ImageView(agua);
+        ImageView imageViewmontaña = new ImageView(montaña);
+        //Posicion de la imagen
+        imageViewagua.setX(00);
+        imageViewagua.setY(550);
+        imageViewmontaña.setX(00);
+        imageViewmontaña.setY(00);
         // Agrupar todos los elementos
+        root.getChildren().add(imageViewagua);
+        root.getChildren().add(imageViewmontaña);
         Group lancha = new Group();
         lancha.getChildren().addAll(barco, proa, popa, mastil,vela);
         
@@ -59,7 +75,6 @@ public class Main extends Application {
         lancha.setLayoutX(200);
         lancha.setLayoutY(300);
         //Añadir el grupo al contenedor principal
-        Pane root = new Pane();
         root.getChildren().add(lancha);
         
         //Moviento
@@ -73,7 +88,7 @@ public class Main extends Application {
        };
        navegando.start();
        
-       Scene scene = new Scene(root, 1200, 700);
+       Scene scene = new Scene(root, 1330, 700,colorFondo);
        primaryStage.setTitle("GAMEBASE");
        primaryStage.setScene(scene);
        primaryStage.show();
@@ -85,6 +100,5 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
-    
+    }   
 }
