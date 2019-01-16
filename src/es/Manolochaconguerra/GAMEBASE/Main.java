@@ -116,8 +116,13 @@ public class Main extends Application {
        AnimationTimer navegando = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                lancha.setCenterX (navegarX);
                 navegarX += lanchacurrentspeedX ;
+                if (navegarX >= 750){
+                    lanchacurrentspeedX = -1;
+                }
+                if (navegarX >= 325){
+                    lanchacurrentspeedX = 1;
+                }
                 System.out.println(navegarX);
                 lancha.setLayoutX(navegarX);
                 lancha.setLayoutY(navegarY);
