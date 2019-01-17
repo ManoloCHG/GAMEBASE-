@@ -5,7 +5,7 @@
  */
 package es.Manolochaconguerra.GAMEBASE;
 
-import java.awt.event.MouseEvent;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -13,6 +13,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -27,8 +28,11 @@ public class Main extends Application {
     Pane root = new Pane();
     int navegarX = 325;
     int navegarY = 510;
-    int lanchacurrentspeedX = 0;
-    Color colorFondo = Color.rgb(158, 251, 252);       
+    int lanchaCurrentSpeed = 0;
+    char estadoLobo = 'I';
+    char estadoBarco = 'I';
+    char estadoObeja = 'I';
+    char estadoCol = 'I';
     @Override
     public void start(Stage primaryStage) {
         Scene scene = new Scene(root, 1320, 700);
@@ -67,8 +71,8 @@ public class Main extends Application {
         //Insertar magen
         ImageView imageViewfondo = new ImageView(fondo);
         ImageView imageViewSheep = new ImageView(Sheep);
-        ImageView imageViewhowl = new ImageView(howl);
-        ImageView imageViewcol = new ImageView(col);
+        ImageView imageViewHowl = new ImageView(howl);
+        ImageView imageViewCol = new ImageView(col);
         ImageView imageViewbarquero = new ImageView(barquero);
         //Posicion de la imagen
         //Fondo
@@ -78,13 +82,13 @@ public class Main extends Application {
         imageViewSheep.setX(150);
         imageViewSheep.setY(460);
         //Lobo
-        imageViewhowl.setX(50);
-        imageViewhowl.setY(455);
+        imageViewHowl.setX(50);
+        imageViewHowl.setY(455);
         //Col
-        imageViewcol.setX(210);
-        imageViewcol.setY(480);
-        imageViewcol.setFitHeight(35);
-        imageViewcol.setFitWidth(35);
+        imageViewCol.setX(210);
+        imageViewCol.setY(480);
+        imageViewCol.setFitHeight(35);
+        imageViewCol.setFitWidth(35);
         //barquero
         imageViewbarquero.setFitHeight(100);
         imageViewbarquero.setFitWidth(100);
@@ -93,42 +97,78 @@ public class Main extends Application {
         // Agrupar todos los elementos
         root.getChildren().add(imageViewfondo);
         root.getChildren().add(imageViewSheep);
-        root.getChildren().add(imageViewhowl);
-        root.getChildren().add(imageViewcol);
+        root.getChildren().add(imageViewHowl);
+        root.getChildren().add(imageViewCol);
         Group lancha = new Group();
         lancha.getChildren().addAll(barco, proa, popa, mastil,vela,imageViewbarquero);
         
         // Posicionar el grupo en la pantalla
-        lancha.setLayoutX(325);
-        lancha.setLayoutY(510);
+        lancha.setLayoutX(navegarX);
+        lancha.setLayoutY(navegarY);
         //Añadir el grupo al contenedor principal
         root.getChildren().add(lancha);
-        //Accion
-        //scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            //@Override
-            //public void handle(MouseEvent mouseEvent) {
-                // Insertar aquí el código a ejecutar cuando se haga clic en el ratón
-                //System.out.println("Mouse clicked X : Y - " + 
-                        //mouseEvent.getX() + " : " + mouseEvent.getY());
-                //};
-        //};
-        //Moviento
-       AnimationTimer navegando = new AnimationTimer() {
+        //Accion Izquierda
+        //col
+        imageViewCol.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
-            public void handle(long now) {
-                navegarX += lanchacurrentspeedX ;
-                if (navegarX >= 750){
-                    lanchacurrentspeedX = -1;
+            public void handle (MouseEvent mouseEvent) {
+                //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
+                estadoCol= 'I';
+                lancha.getChildren().add(imageViewCol);
+                imageViewCol.setX(20);
+                imageViewCol.setY(-30);
+            }
+        });
+        //obeja
+        imageViewSheep.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle (MouseEvent mouseEvent) {
+                //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
+                lancha.getChildren().add(imageViewSheep);
+                imageViewSheep.setX(30);
+                imageViewSheep.setY(-50);
+            }
+        });
+        //lobo
+        imageViewHowl.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle (MouseEvent mouseEvent) {
+                //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
+                lancha.getChildren().add(imageViewHowl);
+                imageViewHowl.setX(30);
+                imageViewHowl.setY(-60);
+                
+            }
+        });
+        //baquero
+        imageViewbarquero.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle (MouseEvent mouseEvent) {
+                //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
+                if (navegarX >= 720){
+                    lanchaCurrentSpeed = -1;
                 }
-                if (navegarX >= 325){
-                    lanchacurrentspeedX = 1;
+                if (navegarX <= 325){
+                    lanchaCurrentSpeed = 1;
                 }
-                System.out.println(navegarX);
+            }
+        });
+        //Moviento
+       AnimationTimer animationlancha = new AnimationTimer() {
+            @Override
+            public void handle (long now){
+                navegarX += lanchaCurrentSpeed;
                 lancha.setLayoutX(navegarX);
-                lancha.setLayoutY(navegarY);
+                if (navegarX >= 720){
+                    lanchaCurrentSpeed = 0;
+                }
+                if (navegarX <= 325){
+                    lanchaCurrentSpeed = 0;
+                }
             };
-       };
-       navegando.start();
+        };
+        animationlancha.start();
+       
        primaryStage.setTitle("GAMEBASE");
        primaryStage.setScene(scene);
        primaryStage.show();
