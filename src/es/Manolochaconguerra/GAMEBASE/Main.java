@@ -113,20 +113,36 @@ public class Main extends Application {
             @Override
             public void handle (MouseEvent mouseEvent) {
                 //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
-                estadoCol= 'I';
                 lancha.getChildren().add(imageViewCol);
                 imageViewCol.setX(20);
                 imageViewCol.setY(-30);
+                if (navegarX >= 720){
+                    lanchaCurrentSpeed = -1;
+                }
+                if (navegarX <= 325){
+                    lanchaCurrentSpeed = 1;
+                }
+                estadoCol = 'C';
+                estadoBarco = 'C';
+                
             }
         });
         //obeja
         imageViewSheep.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle (MouseEvent mouseEvent) {
-                //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
+                //Insertar aquí el código a ejecutar cuando se haga clic en el ratónç
                 lancha.getChildren().add(imageViewSheep);
                 imageViewSheep.setX(30);
                 imageViewSheep.setY(-50);
+                if (navegarX >= 720){
+                    lanchaCurrentSpeed = -1;
+                }
+                if (navegarX <= 325){
+                    lanchaCurrentSpeed = 1;
+                }
+                estadoObeja = 'C';
+                estadoBarco = 'C';
             }
         });
         //lobo
@@ -137,7 +153,14 @@ public class Main extends Application {
                 lancha.getChildren().add(imageViewHowl);
                 imageViewHowl.setX(30);
                 imageViewHowl.setY(-60);
-                
+                if (navegarX >= 720){
+                    lanchaCurrentSpeed = -1;
+                }
+                if (navegarX <= 325){
+                    lanchaCurrentSpeed = 1;
+                }
+                estadoLobo = 'C';
+                estadoBarco = 'C';
             }
         });
         //baquero
@@ -159,11 +182,67 @@ public class Main extends Application {
             public void handle (long now){
                 navegarX += lanchaCurrentSpeed;
                 lancha.setLayoutX(navegarX);
-                if (navegarX >= 720){
+                if (navegarX == 720){
                     lanchaCurrentSpeed = 0;
+                    estadoBarco = 'D';
                 }
-                if (navegarX <= 325){
+                if (navegarX == 325){
                     lanchaCurrentSpeed = 0;
+                    estadoBarco = 'I' ;
+                }
+                //col derecha
+                if (estadoCol == 'C' && estadoBarco == 'D'){
+                    root.getChildren().remove(imageViewCol);
+                    lancha.getChildren().remove(imageViewCol);
+                    root.getChildren().add(imageViewCol);
+                    imageViewCol.setX(1140);
+                    imageViewCol.setY(480);
+                    estadoCol = 'D';
+                }
+                //col izquierda
+                if (estadoCol == 'C' && estadoBarco == 'I'){
+                    root.getChildren().remove(imageViewCol);
+                    lancha.getChildren().remove(imageViewCol);
+                    root.getChildren().add(imageViewCol);
+                    imageViewCol.setX(210);
+                    imageViewCol.setY(480);
+                    estadoCol = 'I'; 
+                }
+                //Obeja derecha
+                if (estadoObeja == 'C' && estadoBarco == 'D'){
+                    root.getChildren().remove(imageViewSheep);
+                    lancha.getChildren().remove(imageViewSheep);
+                    root.getChildren().add(imageViewSheep);
+                    imageViewSheep.setX(1080);
+                    imageViewSheep.setY(460);
+                    estadoObeja = 'D';
+                }
+                //Obeja izquierda
+                if (estadoObeja == 'C' && estadoBarco == 'I'){
+                    root.getChildren().remove(imageViewSheep);
+                    lancha.getChildren().remove(imageViewSheep);
+                    root.getChildren().add(imageViewSheep);
+                    imageViewSheep.setX(150);
+                    imageViewSheep.setY(460);
+                    estadoObeja = 'I'; 
+                }
+                //Lobo derecha
+                if (estadoLobo == 'C' && estadoBarco == 'D'){
+                    root.getChildren().remove(imageViewHowl);
+                    lancha.getChildren().remove(imageViewHowl);
+                    root.getChildren().add(imageViewHowl);
+                    imageViewHowl.setX(1020);
+                    imageViewHowl.setY(455);
+                    estadoLobo = 'D';
+                }
+                //Lobo izquierda
+                if (estadoLobo == 'C' && estadoBarco == 'I'){
+                    root.getChildren().remove(imageViewHowl);
+                    lancha.getChildren().remove(imageViewHowl);
+                    root.getChildren().add(imageViewHowl);
+                    imageViewHowl.setX(50);
+                    imageViewHowl.setY(455);
+                    estadoLobo = 'I'; 
                 }
             };
         };
