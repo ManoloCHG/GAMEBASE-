@@ -18,6 +18,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -29,10 +31,13 @@ public class Main extends Application {
     int navegarX = 325;
     int navegarY = 510;
     int lanchaCurrentSpeed = 0;
+    int TamañoTexto = 15;
     char estadoLobo = 'I';
     char estadoBarco = 'I';
     char estadoObeja = 'I';
     char estadoCol = 'I';
+    String perder = "has perdido";
+    String ganar  = "Has ganado";
     @Override
     public void start(Stage primaryStage) {
         Scene scene = new Scene(root, 1320, 700);
@@ -61,7 +66,15 @@ public class Main extends Application {
         popa.setFill(Color.BROWN);
         mastil.setFill(Color.BROWN);
         vela.setFill(Color.BLUE);
-        
+        //TEXTOS
+        //Has perdido
+        Text derrota = new Text ("Has Perdido");
+        derrota.setFont(Font.font(TamañoTexto));
+        derrota.setFill(Color.GREEN);
+        //Has ganado
+        Text Victoria = new Text ("Has Ganado");
+        Victoria.setFont(Font.font(TamañoTexto));
+        Victoria.setFill(Color.GREEN);
         //insertar imagen 
         Image fondo = new Image(getClass().getResourceAsStream("Imagenes/fondo.jpg"));
         Image Sheep = new Image(getClass().getResourceAsStream("Imagenes/PixelSheep.png"));
@@ -112,6 +125,7 @@ public class Main extends Application {
         imageViewCol.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle (MouseEvent mouseEvent) {
+                if (estadoCol == 'I' && estadoBarco == 'I'){
                 //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
                 lancha.getChildren().add(imageViewCol);
                 imageViewCol.setX(20);
@@ -123,14 +137,28 @@ public class Main extends Application {
                     lanchaCurrentSpeed = 1;
                 }
                 estadoCol = 'C';
+                }
+                if (estadoCol == 'D' && estadoBarco == 'D'){
+                //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
+                lancha.getChildren().add(imageViewCol);
+                imageViewCol.setX(20);
+                imageViewCol.setY(-30);
+                if (navegarX >= 720){
+                    lanchaCurrentSpeed = -1;
+                }
+                if (navegarX <= 325){
+                    lanchaCurrentSpeed = 1;
+                }
+                estadoCol = 'C';
+                }
                 estadoBarco = 'C';
-                
             }
         });
         //obeja
         imageViewSheep.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle (MouseEvent mouseEvent) {
+                if (estadoObeja == 'I' && estadoBarco == 'I'){
                 //Insertar aquí el código a ejecutar cuando se haga clic en el ratónç
                 lancha.getChildren().add(imageViewSheep);
                 imageViewSheep.setX(30);
@@ -142,6 +170,20 @@ public class Main extends Application {
                     lanchaCurrentSpeed = 1;
                 }
                 estadoObeja = 'C';
+                }
+                if (estadoObeja == 'D' && estadoBarco == 'D'){
+                //Insertar aquí el código a ejecutar cuando se haga clic en el ratónç
+                lancha.getChildren().add(imageViewSheep);
+                imageViewSheep.setX(30);
+                imageViewSheep.setY(-50);
+                if (navegarX >= 720){
+                    lanchaCurrentSpeed = -1;
+                }
+                if (navegarX <= 325){
+                    lanchaCurrentSpeed = 1;
+                }
+                estadoObeja = 'C';
+                }
                 estadoBarco = 'C';
             }
         });
@@ -149,6 +191,7 @@ public class Main extends Application {
         imageViewHowl.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle (MouseEvent mouseEvent) {
+                if (estadoLobo == 'I'&& estadoBarco == 'I'){
                 //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
                 lancha.getChildren().add(imageViewHowl);
                 imageViewHowl.setX(30);
@@ -160,6 +203,20 @@ public class Main extends Application {
                     lanchaCurrentSpeed = 1;
                 }
                 estadoLobo = 'C';
+                }
+                if (estadoLobo == 'D'&& estadoBarco == 'D'){
+                //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
+                lancha.getChildren().add(imageViewHowl);
+                imageViewHowl.setX(30);
+                imageViewHowl.setY(-60);
+                if (navegarX >= 720){
+                    lanchaCurrentSpeed = -1;
+                }
+                if (navegarX <= 325){
+                    lanchaCurrentSpeed = 1;
+                }
+                estadoLobo = 'C';
+                }
                 estadoBarco = 'C';
             }
         });
@@ -174,6 +231,11 @@ public class Main extends Application {
                 if (navegarX <= 325){
                     lanchaCurrentSpeed = 1;
                 }
+                estadoBarco = 'C';
+                System.out.println(estadoCol);
+                System.out.println(estadoLobo);
+                System.out.println(estadoObeja);
+                System.out.println(estadoBarco);
             }
         });
         //Moviento
@@ -195,7 +257,7 @@ public class Main extends Application {
                     root.getChildren().remove(imageViewCol);
                     lancha.getChildren().remove(imageViewCol);
                     root.getChildren().add(imageViewCol);
-                    imageViewCol.setX(1140);
+                    imageViewCol.setX(1210);
                     imageViewCol.setY(480);
                     estadoCol = 'D';
                 }
@@ -213,7 +275,7 @@ public class Main extends Application {
                     root.getChildren().remove(imageViewSheep);
                     lancha.getChildren().remove(imageViewSheep);
                     root.getChildren().add(imageViewSheep);
-                    imageViewSheep.setX(1080);
+                    imageViewSheep.setX(1120);
                     imageViewSheep.setY(460);
                     estadoObeja = 'D';
                 }
@@ -244,10 +306,31 @@ public class Main extends Application {
                     imageViewHowl.setY(455);
                     estadoLobo = 'I'; 
                 }
+                if (estadoLobo == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
+                    System.out.println(perder);
+                    root.getChildren().add(derrota);
+                    this.stop();
+                }
+                if (estadoLobo == 'D'&& estadoObeja == 'D' && estadoBarco == 'I'){
+                    System.out.println(perder);
+                }
+                if (estadoCol == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
+                    System.out.println(perder);
+                }
+                if (estadoCol == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
+                    System.out.println(perder);
+                    //this.
+                }
+                if (estadoCol == 'D'&& estadoObeja == 'D' && estadoBarco == 'I'){
+                    System.out.println(perder);
+                }
+                if ( estadoLobo == 'D' && estadoCol == 'D'&& estadoObeja == 'D' && estadoBarco == 'D'){
+                    System.out.println(ganar);
+                }
             };
         };
         animationlancha.start();
-       
+        
        primaryStage.setTitle("GAMEBASE");
        primaryStage.setScene(scene);
        primaryStage.show();
