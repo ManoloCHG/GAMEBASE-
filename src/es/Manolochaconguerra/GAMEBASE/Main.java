@@ -13,6 +13,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import static javafx.scene.input.KeyCode.ENTER;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -31,7 +33,7 @@ public class Main extends Application {
     int navegarX = 325;
     int navegarY = 510;
     int lanchaCurrentSpeed = 0;
-    int TamañoTexto = 15;
+    int TamañoTexto = 200;
     char estadoLobo = 'I';
     char estadoBarco = 'I';
     char estadoObeja = 'I';
@@ -71,10 +73,14 @@ public class Main extends Application {
         Text derrota = new Text ("Has Perdido");
         derrota.setFont(Font.font(TamañoTexto));
         derrota.setFill(Color.GREEN);
+        derrota.setX(100);
+        derrota.setY(200);
         //Has ganado
-        Text Victoria = new Text ("Has Ganado");
-        Victoria.setFont(Font.font(TamañoTexto));
-        Victoria.setFill(Color.GREEN);
+        Text victoria = new Text ("Has Ganado");
+        victoria.setFont(Font.font(TamañoTexto));
+        victoria.setFill(Color.GREEN);
+        victoria.setX(100);
+        victoria.setY(200);
         //insertar imagen 
         Image fondo = new Image(getClass().getResourceAsStream("Imagenes/fondo.jpg"));
         Image Sheep = new Image(getClass().getResourceAsStream("Imagenes/PixelSheep.png"));
@@ -238,6 +244,12 @@ public class Main extends Application {
                 System.out.println(estadoBarco);
             }
         });
+        scene.setOnKeyPressed((KeyEvent reinicio) -> {
+            switch(reinicio.getCode()) {
+                case ENTER :
+                    break;
+            }
+    });
         //Moviento
        AnimationTimer animationlancha = new AnimationTimer() {
             @Override
@@ -306,26 +318,38 @@ public class Main extends Application {
                     imageViewHowl.setY(455);
                     estadoLobo = 'I'; 
                 }
+                //Restricciones y Mensaje 
                 if (estadoLobo == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
                     System.out.println(perder);
                     root.getChildren().add(derrota);
                     this.stop();
                 }
+                
                 if (estadoLobo == 'D'&& estadoObeja == 'D' && estadoBarco == 'I'){
                     System.out.println(perder);
+                    root.getChildren().add(derrota);
+                    this.stop();
                 }
                 if (estadoCol == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
                     System.out.println(perder);
+                    root.getChildren().add(derrota);
+                    this.stop();
                 }
                 if (estadoCol == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
                     System.out.println(perder);
+                    root.getChildren().add(derrota);
+                    this.stop();
                     //this.
                 }
                 if (estadoCol == 'D'&& estadoObeja == 'D' && estadoBarco == 'I'){
                     System.out.println(perder);
+                    root.getChildren().add(derrota);
+                    this.stop();
                 }
                 if ( estadoLobo == 'D' && estadoCol == 'D'&& estadoObeja == 'D' && estadoBarco == 'D'){
                     System.out.println(ganar);
+                    root.getChildren().add(victoria);
+                    this.stop();
                 }
             };
         };
