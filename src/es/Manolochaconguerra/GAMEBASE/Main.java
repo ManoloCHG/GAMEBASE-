@@ -28,18 +28,20 @@ import javafx.stage.Stage;
  *
  * @author Manuel Jose chacon Guerra
  */
+
 public class Main extends Application {
     Pane root = new Pane();
     int navegarX = 325;
     int navegarY = 510;
     int lanchaCurrentSpeed = 0;
-    int TamañoTexto = 200;
+    int TamañoTexto = 150;
     char estadoLobo = 'I';
     char estadoBarco = 'I';
     char estadoObeja = 'I';
     char estadoCol = 'I';
     String perder = "has perdido";
     String ganar  = "Has ganado";
+    AnimationTimer animationlancha;
     @Override
     public void start(Stage primaryStage) {
         Scene scene = new Scene(root, 1320, 700);
@@ -73,15 +75,22 @@ public class Main extends Application {
         Text derrota = new Text ("Has Perdido");
         derrota.setFont(Font.font(TamañoTexto));
         derrota.setFill(Color.GREEN);
-        derrota.setX(100);
+        derrota.setX(325);
         derrota.setY(200);
+        //Pulse para Reiniciar
+        Text reinic = new Text ("(Pulse enter para reiniciar)");
+        reinic.setFont(Font.font(50));
+        reinic.setFill(Color.GREEN);
+        reinic.setX(425);
+        reinic.setY(250);
         //Has ganado
         Text victoria = new Text ("Has Ganado");
         victoria.setFont(Font.font(TamañoTexto));
         victoria.setFill(Color.GREEN);
-        victoria.setX(100);
+        victoria.setX(325);
         victoria.setY(200);
         //insertar imagen 
+        
         Image fondo = new Image(getClass().getResourceAsStream("Imagenes/fondo.jpg"));
         Image Sheep = new Image(getClass().getResourceAsStream("Imagenes/PixelSheep.png"));
         Image howl = new Image(getClass().getResourceAsStream("Imagenes/howl.png"));
@@ -247,11 +256,34 @@ public class Main extends Application {
         scene.setOnKeyPressed((KeyEvent reinicio) -> {
             switch(reinicio.getCode()) {
                 case ENTER :
+                    //Grupo
+                    navegarX = 325;
+                    navegarY = 510;
+                    lancha.setLayoutX(navegarX);
+                    lancha.setLayoutY(navegarY);
+                    //Obeja
+                    imageViewSheep.setX(150);
+                    imageViewSheep.setY(460);
+                    //Lobo
+                    imageViewHowl.setX(50);
+                    imageViewHowl.setY(455);
+                    //Col
+                    imageViewCol.setX(210);
+                    imageViewCol.setY(480);
+                    imageViewCol.setFitHeight(35);
+                    imageViewCol.setFitWidth(35);
+                    estadoLobo = 'I';
+                    estadoBarco = 'I';
+                    estadoObeja = 'I';
+                    estadoCol = 'I';
+                    root.getChildren().remove(reinic);
+                    root.getChildren().remove(derrota);
+                    animationlancha.start();
                     break;
             }
     });
         //Moviento
-       AnimationTimer animationlancha = new AnimationTimer() {
+        animationlancha = new AnimationTimer() {
             @Override
             public void handle (long now){
                 navegarX += lanchaCurrentSpeed;
@@ -322,28 +354,27 @@ public class Main extends Application {
                 if (estadoLobo == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
                     System.out.println(perder);
                     root.getChildren().add(derrota);
+                    root.getChildren().add(reinic);
                     this.stop();
                 }
                 
                 if (estadoLobo == 'D'&& estadoObeja == 'D' && estadoBarco == 'I'){
                     System.out.println(perder);
                     root.getChildren().add(derrota);
+                    root.getChildren().add(reinic);
                     this.stop();
                 }
                 if (estadoCol == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
                     System.out.println(perder);
                     root.getChildren().add(derrota);
+                    root.getChildren().add(reinic);
                     this.stop();
-                }
-                if (estadoCol == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
-                    System.out.println(perder);
-                    root.getChildren().add(derrota);
-                    this.stop();
-                    //this.
+                    
                 }
                 if (estadoCol == 'D'&& estadoObeja == 'D' && estadoBarco == 'I'){
                     System.out.println(perder);
                     root.getChildren().add(derrota);
+                    root.getChildren().add(reinic);
                     this.stop();
                 }
                 if ( estadoLobo == 'D' && estadoCol == 'D'&& estadoObeja == 'D' && estadoBarco == 'D'){
