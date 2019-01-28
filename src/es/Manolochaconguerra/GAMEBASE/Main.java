@@ -9,6 +9,7 @@ package es.Manolochaconguerra.GAMEBASE;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -16,6 +17,8 @@ import javafx.scene.image.ImageView;
 import static javafx.scene.input.KeyCode.ENTER;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import static javafx.scene.layout.BackgroundPosition.CENTER;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -35,6 +38,7 @@ public class Main extends Application {
     int navegarY = 510;
     int lanchaCurrentSpeed = 0;
     int TamañoTexto = 150;
+    int puntuacion = 0;
     char estadoLobo = 'I';
     char estadoBarco = 'I';
     char estadoObeja = 'I';
@@ -89,8 +93,43 @@ public class Main extends Application {
         victoria.setFill(Color.GREEN);
         victoria.setX(325);
         victoria.setY(200);
+        //Contenedores 
+        HBox paneContenedor = new HBox();
+        paneContenedor.setLayoutY(20);
+        paneContenedor.setMinWidth (1320);
+        paneContenedor.setAlignment(Pos.CENTER);
+        paneContenedor.setSpacing(100);
+        //intentos 
+        HBox paneIntentos = new HBox();
+        paneIntentos.setSpacing(10);
+        paneContenedor.getChildren().add(paneIntentos);
+        //Temporizador
+        HBox paneTemporizador = new HBox();
+        paneTemporizador.setSpacing(10);
+        paneContenedor.getChildren().add(paneTemporizador);
+        //Escore
+        Text textScore = new Text ("INTENTOS:");
+        textScore.setFont(Font.font(50));
+        textScore.setFill(Color.GREEN);
+        //Texto para la puntuacion
+        Text score = new Text("0");
+        score.setFont(Font.font(50));
+        score.setFill(Color.GREEN);
+        score.setText(String.valueOf(puntuacion));
+        //Texto temporizador
+        Text texTemp = new Text ("TIEMPO:");
+        texTemp.setFont(Font.font(50));
+        texTemp.setFill(Color.GREEN);
+        //Puntuacion temporizador
+        Text temp = new Text ("0");
+        temp.setFont(Font.font(50));
+        temp.setFill(Color.GREEN);
+        //añadir los textos al layout
+        paneIntentos.getChildren().add(textScore);
+        paneIntentos.getChildren().add(score);
+        paneTemporizador.getChildren().add(texTemp);
+        paneTemporizador.getChildren().add(temp);
         //insertar imagen 
-        
         Image fondo = new Image(getClass().getResourceAsStream("Imagenes/fondo.jpg"));
         Image Sheep = new Image(getClass().getResourceAsStream("Imagenes/PixelSheep.png"));
         Image howl = new Image(getClass().getResourceAsStream("Imagenes/howl.png"));
@@ -124,6 +163,7 @@ public class Main extends Application {
         imageViewbarquero.setY(-90);
         // Agrupar todos los elementos
         root.getChildren().add(imageViewfondo);
+        root.getChildren().add(paneContenedor);
         root.getChildren().add(imageViewSheep);
         root.getChildren().add(imageViewHowl);
         root.getChildren().add(imageViewCol);
@@ -279,6 +319,7 @@ public class Main extends Application {
                     root.getChildren().remove(reinic);
                     root.getChildren().remove(derrota);
                     animationlancha.start();
+                    puntuacion ++; 
                     break;
             }
     });
