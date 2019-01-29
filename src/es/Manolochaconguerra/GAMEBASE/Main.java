@@ -6,6 +6,9 @@
 package es.Manolochaconguerra.GAMEBASE;
 
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -17,7 +20,6 @@ import javafx.scene.image.ImageView;
 import static javafx.scene.input.KeyCode.ENTER;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import static javafx.scene.layout.BackgroundPosition.CENTER;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -45,6 +47,8 @@ public class Main extends Application {
     char estadoCol = 'I';
     String perder = "has perdido";
     String ganar  = "Has ganado";
+    long segundos = 0;
+    LocalDateTime inicial = LocalDateTime.now();
     AnimationTimer animationlancha;
     @Override
     public void start(Stage primaryStage) {
@@ -58,6 +62,7 @@ public class Main extends Application {
             0.0, 0.0,
             50.0, 0.0,
             50.0, 50.0 });
+        
         Polygon popa = new Polygon();
         popa.getPoints().addAll(new Double[]{
             250.0, 0.0,
@@ -115,7 +120,7 @@ public class Main extends Application {
         Text score = new Text("0");
         score.setFont(Font.font(50));
         score.setFill(Color.GREEN);
-        score.setText(String.valueOf(puntuacion));
+        
         //Texto temporizador
         Text texTemp = new Text ("TIEMPO:");
         texTemp.setFont(Font.font(50));
@@ -318,15 +323,21 @@ public class Main extends Application {
                     estadoCol = 'I';
                     root.getChildren().remove(reinic);
                     root.getChildren().remove(derrota);
+                    root.getChildren().remove(victoria);
                     animationlancha.start();
-                    puntuacion ++; 
+                    puntuacion ++;
+                    score.setText(String.valueOf(puntuacion));
                     break;
             }
+        
     });
         //Moviento
         animationlancha = new AnimationTimer() {
             @Override
             public void handle (long now){
+                //Temporizador
+                LocalDateTime actual;
+                actual = LocalDateTime.now();
                 navegarX += lanchaCurrentSpeed;
                 lancha.setLayoutX(navegarX);
                 if (navegarX == 720){
@@ -396,6 +407,8 @@ public class Main extends Application {
                     System.out.println(perder);
                     root.getChildren().add(derrota);
                     root.getChildren().add(reinic);
+                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+                    temp.setText(String.valueOf(segundos));
                     this.stop();
                 }
                 
@@ -403,24 +416,30 @@ public class Main extends Application {
                     System.out.println(perder);
                     root.getChildren().add(derrota);
                     root.getChildren().add(reinic);
+                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+                    temp.setText(String.valueOf(segundos));
                     this.stop();
                 }
                 if (estadoCol == 'I'&& estadoObeja == 'I' && estadoBarco == 'D'){
                     System.out.println(perder);
                     root.getChildren().add(derrota);
                     root.getChildren().add(reinic);
+                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+                    temp.setText(String.valueOf(segundos));
                     this.stop();
                     
                 }
                 if (estadoCol == 'D'&& estadoObeja == 'D' && estadoBarco == 'I'){
-                    System.out.println(perder);
                     root.getChildren().add(derrota);
                     root.getChildren().add(reinic);
+                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+                    temp.setText(String.valueOf(segundos));
                     this.stop();
                 }
                 if ( estadoLobo == 'D' && estadoCol == 'D'&& estadoObeja == 'D' && estadoBarco == 'D'){
-                    System.out.println(ganar);
                     root.getChildren().add(victoria);
+                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+                    temp.setText(String.valueOf(segundos));
                     this.stop();
                 }
             };
