@@ -36,7 +36,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     Pane root = new Pane();
-    int navegarX = 325;
+    int navegarX = 320;
     int navegarY = 510;
     int lanchaCurrentSpeed = 0;
     int TamañoTexto = 150;
@@ -50,6 +50,7 @@ public class Main extends Application {
     long segundos = 0;
     LocalDateTime inicial = LocalDateTime.now();
     AnimationTimer animationlancha;
+    
     @Override
     public void start(Stage primaryStage) {
         Scene scene = new Scene(root, 1320, 700);
@@ -191,10 +192,10 @@ public class Main extends Application {
                 imageViewCol.setX(20);
                 imageViewCol.setY(-30);
                 if (navegarX >= 720){
-                    lanchaCurrentSpeed = -1;
+                    lanchaCurrentSpeed = -2;
                 }
-                if (navegarX <= 325){
-                    lanchaCurrentSpeed = 1;
+                if (navegarX <= 320){
+                    lanchaCurrentSpeed = 2;
                 }
                 estadoCol = 'C';
                 }
@@ -204,10 +205,10 @@ public class Main extends Application {
                 imageViewCol.setX(20);
                 imageViewCol.setY(-30);
                 if (navegarX >= 720){
-                    lanchaCurrentSpeed = -1;
+                    lanchaCurrentSpeed = -2;
                 }
-                if (navegarX <= 325){
-                    lanchaCurrentSpeed = 1;
+                if (navegarX <= 320){
+                    lanchaCurrentSpeed = 2;
                 }
                 estadoCol = 'C';
                 }
@@ -224,10 +225,10 @@ public class Main extends Application {
                 imageViewSheep.setX(30);
                 imageViewSheep.setY(-50);
                 if (navegarX >= 720){
-                    lanchaCurrentSpeed = -1;
+                    lanchaCurrentSpeed = -2;
                 }
-                if (navegarX <= 325){
-                    lanchaCurrentSpeed = 1;
+                if (navegarX <= 320){
+                    lanchaCurrentSpeed = 2;
                 }
                 estadoObeja = 'C';
                 }
@@ -237,10 +238,10 @@ public class Main extends Application {
                 imageViewSheep.setX(30);
                 imageViewSheep.setY(-50);
                 if (navegarX >= 720){
-                    lanchaCurrentSpeed = -1;
+                    lanchaCurrentSpeed = -2;
                 }
-                if (navegarX <= 325){
-                    lanchaCurrentSpeed = 1;
+                if (navegarX <= 320){
+                    lanchaCurrentSpeed = 2;
                 }
                 estadoObeja = 'C';
                 }
@@ -257,10 +258,10 @@ public class Main extends Application {
                 imageViewHowl.setX(30);
                 imageViewHowl.setY(-60);
                 if (navegarX >= 720){
-                    lanchaCurrentSpeed = -1;
+                    lanchaCurrentSpeed = -2;
                 }
-                if (navegarX <= 325){
-                    lanchaCurrentSpeed = 1;
+                if (navegarX <= 320){
+                    lanchaCurrentSpeed = 2;
                 }
                 estadoLobo = 'C';
                 }
@@ -270,10 +271,10 @@ public class Main extends Application {
                 imageViewHowl.setX(30);
                 imageViewHowl.setY(-60);
                 if (navegarX >= 720){
-                    lanchaCurrentSpeed = -1;
+                    lanchaCurrentSpeed = -2;
                 }
-                if (navegarX <= 325){
-                    lanchaCurrentSpeed = 1;
+                if (navegarX <= 320){
+                    lanchaCurrentSpeed = 2;
                 }
                 estadoLobo = 'C';
                 }
@@ -286,10 +287,10 @@ public class Main extends Application {
             public void handle (MouseEvent mouseEvent) {
                 //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
                 if (navegarX >= 720){
-                    lanchaCurrentSpeed = -1;
+                    lanchaCurrentSpeed = -2;
                 }
-                if (navegarX <= 325){
-                    lanchaCurrentSpeed = 1;
+                if (navegarX <= 320){
+                    lanchaCurrentSpeed = 2;
                 }
                 estadoBarco = 'C';
                 System.out.println(estadoCol);
@@ -302,7 +303,7 @@ public class Main extends Application {
             switch(reinicio.getCode()) {
                 case ENTER :
                     //Grupo
-                    navegarX = 325;
+                    navegarX = 320;
                     navegarY = 510;
                     lancha.setLayoutX(navegarX);
                     lancha.setLayoutY(navegarY);
@@ -323,7 +324,6 @@ public class Main extends Application {
                     estadoCol = 'I';
                     root.getChildren().remove(reinic);
                     root.getChildren().remove(derrota);
-                    root.getChildren().remove(victoria);
                     animationlancha.start();
                     puntuacion ++;
                     score.setText(String.valueOf(puntuacion));
@@ -344,7 +344,7 @@ public class Main extends Application {
                     lanchaCurrentSpeed = 0;
                     estadoBarco = 'D';
                 }
-                if (navegarX == 325){
+                if (navegarX == 320){
                     lanchaCurrentSpeed = 0;
                     estadoBarco = 'I' ;
                 }
@@ -438,8 +438,11 @@ public class Main extends Application {
                 }
                 if ( estadoLobo == 'D' && estadoCol == 'D'&& estadoObeja == 'D' && estadoBarco == 'D'){
                     root.getChildren().add(victoria);
+                    root.getChildren().remove(victoria);
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
                     temp.setText(String.valueOf(segundos));
+                    puntuacion = 0;
+                    score.setText(String.valueOf(puntuacion));
                     this.stop();
                 }
             };
