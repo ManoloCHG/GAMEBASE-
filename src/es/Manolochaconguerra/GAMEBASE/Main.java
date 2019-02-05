@@ -24,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -48,6 +49,8 @@ public class Main extends Application {
     String ganar  = "Has ganado";
     long segundos = 0;
     boolean gameover = false;
+    boolean colisionizda = false;
+    boolean colisiondecha = true;
     LocalDateTime inicial = LocalDateTime.now();
     AnimationTimer animationlancha;
     
@@ -57,13 +60,14 @@ public class Main extends Application {
         
         // Elementos del personaje
         Rectangle mastil = new Rectangle(150, -100, 10, 100);
+        Rectangle Orillaizd = new Rectangle(200,100, 325, 170);
+        Rectangle Orilladecha = new Rectangle(200,100, 325, 170);
         Rectangle barco = new Rectangle(50, 0, 150, 50);
         Polygon proa = new Polygon();
         proa.getPoints().addAll(new Double[]{
             0.0, 0.0,
             50.0, 0.0,
             50.0, 50.0 });
-        
         Polygon popa = new Polygon();
         popa.getPoints().addAll(new Double[]{
             250.0, 0.0,
@@ -164,6 +168,12 @@ public class Main extends Application {
         //Fondo
         imageViewfondo.setX(00);
         imageViewfondo.setY(00);
+        //orillaizda
+        Orillaizd.setX(0);
+        Orillaizd.setY(510);
+        //orilladecha
+        Orilladecha.setX(972);
+        Orilladecha.setY(510);
         //Oveja
         imageViewSheep.setX(posIzdaOvejaX);
         imageViewSheep.setY(posOvejaY);
@@ -182,6 +192,8 @@ public class Main extends Application {
         imageViewbarquero.setY(-90);
         // Agrupar todos los elementos
         root.getChildren().add(imageViewfondo);
+        root.getChildren().add(Orillaizd);
+        root.getChildren().add(Orilladecha);
         root.getChildren().add(paneContenedor);
         root.getChildren().add(imageViewSheep);
         root.getChildren().add(imageViewHowl);
@@ -203,116 +215,120 @@ public class Main extends Application {
                 actual = LocalDateTime.now();
                 navegarX += lanchaCurrentSpeed;
                 lancha.setLayoutX(navegarX);
-                if (navegarX == 720){
+                Shape shapecolision1 = Shape.intersect (proa ,Orillaizd);
+                colisiondecha = shapecolision1.getBoundsInLocal().isEmpty();
+                Shape shapecolision2 = Shape.intersect (popa ,Orilladecha);
+                colisiondecha = shapecolision2.getBoundsInLocal().isEmpty();
+                if (colisiondecha == false){
                     lanchaCurrentSpeed = 0;
                     estadoBarco = 'D';
                 }
-                if (navegarX == 320){
+                if (colisionizda == false){
                     lanchaCurrentSpeed = 0;
                     estadoBarco = 'I' ;
                 }
-                //col derecha
-                if (estadoCol == 'C' && estadoBarco == 'D'){
-                    root.getChildren().remove(imageViewCol);
-                    lancha.getChildren().remove(imageViewCol);
-                    root.getChildren().add(imageViewCol);
-                    imageViewCol.setX(posDechaColX);
-                    imageViewCol.setY(posColY);
-                    estadoCol = 'D';
-                }
-                //col izquierda
-                if (estadoCol == 'C' && estadoBarco == 'I'){
-                    root.getChildren().remove(imageViewCol);
-                    lancha.getChildren().remove(imageViewCol);
-                    root.getChildren().add(imageViewCol);
-                    imageViewCol.setX(posIzdaColX);
-                    imageViewCol.setY(posColY);
-                    estadoCol = 'I'; 
-                }
-                //Oveja derecha
-                if (estadoOveja == 'C' && estadoBarco == 'D'){
-                    root.getChildren().remove(imageViewSheep);
-                    lancha.getChildren().remove(imageViewSheep);
-                    root.getChildren().add(imageViewSheep);
-                    imageViewSheep.setX(posDechaOvejaX);
-                    imageViewSheep.setY(posOvejaY);
-                    estadoOveja = 'D';
-                }
-                //Oveja izquierda
-                if (estadoOveja == 'C' && estadoBarco == 'I'){
-                    root.getChildren().remove(imageViewSheep);
-                    lancha.getChildren().remove(imageViewSheep);
-                    root.getChildren().add(imageViewSheep);
-                    imageViewSheep.setX(posIzdaOvejaX);
-                    imageViewSheep.setY(posOvejaY);
-                    estadoOveja = 'I'; 
-                }
-                //Lobo derecha
-                if (estadoLobo == 'C' && estadoBarco == 'D'){
-                    root.getChildren().remove(imageViewHowl);
-                    lancha.getChildren().remove(imageViewHowl);
-                    root.getChildren().add(imageViewHowl);
-                    imageViewHowl.setX(posDechaLoboX);
-                    imageViewHowl.setY(posLoboY);
-                    estadoLobo = 'D';
-                }
-                //Lobo izquierda
-                if (estadoLobo == 'C' && estadoBarco == 'I'){
-                    root.getChildren().remove(imageViewHowl);
-                    lancha.getChildren().remove(imageViewHowl);
-                    root.getChildren().add(imageViewHowl);
-                    imageViewHowl.setX(posIzdaLoboX);
-                    imageViewHowl.setY(posLoboY);
-                    estadoLobo = 'I'; 
-                }
-                //Restricciones y Mensaje 
-                if (estadoLobo == 'I'&& estadoOveja == 'I' && estadoBarco == 'D'){
-                    System.out.println(perder);
-                    root.getChildren().add(derrota);
-                    root.getChildren().add(reinic);
-                    gameover = true;
-                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
-                    temp.setText(String.valueOf(segundos));
-                    this.stop();
-                }
-                
-                if (estadoLobo == 'D'&& estadoOveja == 'D' && estadoBarco == 'I'){
-                    System.out.println(perder);
-                    root.getChildren().add(derrota);
-                    root.getChildren().add(reinic);
-                    gameover = true;
-                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
-                    temp.setText(String.valueOf(segundos));
-                    this.stop();
-                }
-                if (estadoCol == 'I'&& estadoOveja == 'I' && estadoBarco == 'D'){
-                    System.out.println(perder);
-                    root.getChildren().add(derrota);
-                    root.getChildren().add(reinic);
-                    gameover = true;
-                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
-                    temp.setText(String.valueOf(segundos));
-                    this.stop();
-                    
-                }
-                if (estadoCol == 'D'&& estadoOveja == 'D' && estadoBarco == 'I'){
-                    root.getChildren().add(derrota);
-                    root.getChildren().add(reinic);
-                    gameover = true;
-                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
-                    temp.setText(String.valueOf(segundos));
-                    this.stop();
-                }
-                if ( estadoLobo == 'D' && estadoCol == 'D'&& estadoOveja == 'D' && estadoBarco == 'D'){
-                    System.out.println(ganar);
-                    root.getChildren().add(victoria);
-                    root.getChildren().add(reinic);
-                    gameover = false;
-                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
-                    temp.setText(String.valueOf(segundos));
-                    puntuacion = -1;
-                    this.stop();
-                }
+//                //col derecha
+//                if (estadoCol == 'C' && estadoBarco == 'D'){
+//                    root.getChildren().remove(imageViewCol);
+//                    lancha.getChildren().remove(imageViewCol);
+//                    root.getChildren().add(imageViewCol);
+//                    imageViewCol.setX(posDechaColX);
+//                    imageViewCol.setY(posColY);
+//                    estadoCol = 'D';
+//                }
+//                //col izquierda
+//                if (estadoCol == 'C' && estadoBarco == 'I'){
+//                    root.getChildren().remove(imageViewCol);
+//                    lancha.getChildren().remove(imageViewCol);
+//                    root.getChildren().add(imageViewCol);
+//                    imageViewCol.setX(posIzdaColX);
+//                    imageViewCol.setY(posColY);
+//                    estadoCol = 'I'; 
+//                }
+//                //Oveja derecha
+//                if (estadoOveja == 'C' && estadoBarco == 'D'){
+//                    root.getChildren().remove(imageViewSheep);
+//                    lancha.getChildren().remove(imageViewSheep);
+//                    root.getChildren().add(imageViewSheep);
+//                    imageViewSheep.setX(posDechaOvejaX);
+//                    imageViewSheep.setY(posOvejaY);
+//                    estadoOveja = 'D';
+//                }
+//                //Oveja izquierda
+//                if (estadoOveja == 'C' && estadoBarco == 'I'){
+//                    root.getChildren().remove(imageViewSheep);
+//                    lancha.getChildren().remove(imageViewSheep);
+//                    root.getChildren().add(imageViewSheep);
+//                    imageViewSheep.setX(posIzdaOvejaX);
+//                    imageViewSheep.setY(posOvejaY);
+//                    estadoOveja = 'I'; 
+//                }
+//                //Lobo derecha
+//                if (estadoLobo == 'C' && estadoBarco == 'D'){
+//                    root.getChildren().remove(imageViewHowl);
+//                    lancha.getChildren().remove(imageViewHowl);
+//                    root.getChildren().add(imageViewHowl);
+//                    imageViewHowl.setX(posDechaLoboX);
+//                    imageViewHowl.setY(posLoboY);
+//                    estadoLobo = 'D';
+//                }
+//                //Lobo izquierda
+//                if (estadoLobo == 'C' && estadoBarco == 'I'){
+//                    root.getChildren().remove(imageViewHowl);
+//                    lancha.getChildren().remove(imageViewHowl);
+//                    root.getChildren().add(imageViewHowl);
+//                    imageViewHowl.setX(posIzdaLoboX);
+//                    imageViewHowl.setY(posLoboY);
+//                    estadoLobo = 'I'; 
+//                }
+//                //Restricciones y Mensaje 
+//                if (estadoLobo == 'I'&& estadoOveja == 'I' && estadoBarco == 'D'){
+//                    System.out.println(perder);
+//                    root.getChildren().add(derrota);
+//                    root.getChildren().add(reinic);
+//                    gameover = true;
+//                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+//                    temp.setText(String.valueOf(segundos));
+//                    this.stop();
+//                }
+//                
+//                if (estadoLobo == 'D'&& estadoOveja == 'D' && estadoBarco == 'I'){
+//                    System.out.println(perder);
+//                    root.getChildren().add(derrota);
+//                    root.getChildren().add(reinic);
+//                    gameover = true;
+//                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+//                    temp.setText(String.valueOf(segundos));
+//                    this.stop();
+//                }
+//                if (estadoCol == 'I'&& estadoOveja == 'I' && estadoBarco == 'D'){
+//                    System.out.println(perder);
+//                    root.getChildren().add(derrota);
+//                    root.getChildren().add(reinic);
+//                    gameover = true;
+//                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+//                    temp.setText(String.valueOf(segundos));
+//                    this.stop();
+//                    
+//                }
+//                if (estadoCol == 'D'&& estadoOveja == 'D' && estadoBarco == 'I'){
+//                    root.getChildren().add(derrota);
+//                    root.getChildren().add(reinic);
+//                    gameover = true;
+//                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+//                    temp.setText(String.valueOf(segundos));
+//                    this.stop();
+//                }
+//                if ( estadoLobo == 'D' && estadoCol == 'D'&& estadoOveja == 'D' && estadoBarco == 'D'){
+//                    System.out.println(ganar);
+//                    root.getChildren().add(victoria);
+//                    root.getChildren().add(reinic);
+//                    gameover = false;
+//                    segundos = ChronoUnit.SECONDS.between(inicial ,actual);
+//                    temp.setText(String.valueOf(segundos));
+//                    puntuacion = -1;
+//                    this.stop();
+//                }
             };
         };
         animationlancha.start();
@@ -329,10 +345,10 @@ public class Main extends Application {
                     lancha.getChildren().add(imageViewCol);
                     imageViewCol.setX(20);
                     imageViewCol.setY(-30);
-                    if (navegarX >= 720){
+                    if (colisionizda == false && colisiondecha == true ){
                         lanchaCurrentSpeed = -2;
                     }
-                    if (navegarX <= 320){
+                    if (colisionizda == true && colisiondecha == false){
                         lanchaCurrentSpeed = 2;
                     }
                     estadoCol = 'C';
@@ -342,10 +358,10 @@ public class Main extends Application {
                     lancha.getChildren().add(imageViewCol);
                     imageViewCol.setX(20);
                     imageViewCol.setY(-30);
-                    if (navegarX >= 720){
+                    if (colisionizda == false && colisiondecha == true ){
                         lanchaCurrentSpeed = -2;
                     }
-                    if (navegarX <= 320){
+                    if (colisionizda == true && colisiondecha == false){
                         lanchaCurrentSpeed = 2;
                     }
                     estadoCol = 'C';
@@ -362,10 +378,10 @@ public class Main extends Application {
                     lancha.getChildren().add(imageViewSheep);
                     imageViewSheep.setX(30);
                     imageViewSheep.setY(-50);
-                    if (navegarX >= 720){
+                    if (colisionizda == false && colisiondecha == true ){
                         lanchaCurrentSpeed = -2;
                     }
-                    if (navegarX <= 320){
+                    if (colisionizda == true && colisiondecha == false){
                         lanchaCurrentSpeed = 2;
                     }
                     estadoOveja = 'C';
@@ -375,10 +391,10 @@ public class Main extends Application {
                     lancha.getChildren().add(imageViewSheep);
                     imageViewSheep.setX(30);
                     imageViewSheep.setY(-50);
-                    if (navegarX >= 720){
+                    if (colisionizda == false && colisiondecha == true ){
                         lanchaCurrentSpeed = -2;
                     }
-                    if (navegarX <= 320){
+                    if (colisionizda == true && colisiondecha == false){
                         lanchaCurrentSpeed = 2;
                     }
                     estadoOveja = 'C';
@@ -395,10 +411,10 @@ public class Main extends Application {
                     lancha.getChildren().add(imageViewHowl);
                     imageViewHowl.setX(30);
                     imageViewHowl.setY(-60);
-                    if (navegarX >= 720){
+                    if (colisionizda == false && colisiondecha == true ){
                         lanchaCurrentSpeed = -2;
                     }
-                    if (navegarX <= 320){
+                    if (colisionizda == true && colisiondecha == false){
                         lanchaCurrentSpeed = 2;
                     }
                     estadoLobo = 'C';
@@ -408,10 +424,10 @@ public class Main extends Application {
                     lancha.getChildren().add(imageViewHowl);
                     imageViewHowl.setX(30);
                     imageViewHowl.setY(-60);
-                    if (navegarX >= 720){
+                    if (colisionizda == false && colisiondecha == true ){
                         lanchaCurrentSpeed = -2;
                     }
-                    if (navegarX <= 320){
+                    if (colisionizda == true && colisiondecha == false){
                         lanchaCurrentSpeed = 2;
                     }
                     estadoLobo = 'C';
@@ -424,10 +440,12 @@ public class Main extends Application {
             @Override
             public void handle (MouseEvent mouseEvent) {
                 //Insertar aquí el código a ejecutar cuando se haga clic en el ratón
-                if (navegarX >= 720){
+                if (colisionizda == true && colisiondecha == false ){
+                    colisiondecha = false;
                     lanchaCurrentSpeed = -2;
                 }
-                if (navegarX <= 320){
+                if (colisionizda == false && colisiondecha == true){
+                    colisionizda = true;
                     lanchaCurrentSpeed = 2;
                 }
                 estadoBarco = 'C';
@@ -467,6 +485,8 @@ public class Main extends Application {
                     animationlancha.start();
                     puntuacion ++;
                     segundos = 0;
+                    colisiondecha = false;
+                    colisionizda = false;
                     score.setText(String.valueOf(puntuacion));
                     temp.setText(String.valueOf(segundos));
                     }
