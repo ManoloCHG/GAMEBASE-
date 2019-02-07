@@ -361,6 +361,7 @@ public class Main extends Application {
                     estadoCol = 'C';
                 }
                 estadoBarco = 'C';
+                System.out.println(estadoCol);
             }
         });
         //oveja
@@ -398,6 +399,7 @@ public class Main extends Application {
                     estadoOveja = 'C';
                 }
                 estadoBarco = 'C';
+                System.out.println(estadoOveja);
             }
         });
         //lobo
@@ -435,6 +437,7 @@ public class Main extends Application {
                     estadoLobo = 'C';
                 }
                 estadoBarco = 'C';
+                 System.out.println(estadoLobo);
             }
         });
         //baquero
