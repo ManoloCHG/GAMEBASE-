@@ -45,18 +45,23 @@ public class Main extends Application {
     char estadoBarco = 'I';
     char estadoOveja = 'I';
     char estadoCol = 'I';
-    String perder = "has perdido";
-    String ganar  = "Has ganado";
-    String reinic = "(Pulse enter para reiniciar)";
     long segundos = 0;
     boolean gameover = false;
     boolean colisionIzda = false;
     boolean colisionDecha = true;
     LocalDateTime inicial = LocalDateTime.now();
     AnimationTimer animationlancha;
- 
-    public void textoDerrota (){
-    this.mostrarTexto(perder, 325, 200);    
+    Text textPerder = new Text("Has Perdido");
+    Text textGanar = new Text("Has Ganado");
+    Text textReinicio = new Text("(Pulsa enter para reiniciar)");
+    
+    public void mostrarTexto (Text text ,int x, int y, int a){
+        root.getChildren().add(text);
+        text.setLayoutX (x);
+        text.setLayoutY (y);
+        text.setFont(Font.font(a));
+        text.setFill(Color.GREEN);
+           
     }
          
     @Override
@@ -89,25 +94,8 @@ public class Main extends Application {
         popa.setFill(Color.BROWN);
         mastil.setFill(Color.BROWN);
         vela.setFill(Color.BLUE);
-        //TEXTOS
-        //Has perdido
-        Text derrota = new Text ("Has Perdido");
-        derrota.setFont(Font.font(TamañoTexto));
-        derrota.setFill(Color.GREEN);
-        derrota.setX(325);
-        derrota.setY(200);
-        //Pulse para Reiniciar
-        Text reinic = new Text ("(Pulse enter para reiniciar)");
-        reinic.setFont(Font.font(50));
-        reinic.setFill(Color.GREEN);
-        reinic.setX(425);
-        reinic.setY(250);
-        //Has ganado
-        Text victoria = new Text ("Has Ganado");
-        victoria.setFont(Font.font(TamañoTexto));
-        victoria.setFill(Color.GREEN);
-        victoria.setX(325);
-        victoria.setY(200);
+  
+    
         //Contenedores 
         HBox paneContenedor = new HBox();
         paneContenedor.setLayoutY(20);
@@ -292,9 +280,8 @@ public class Main extends Application {
                 }
                 //Restricciones y Mensaje 
                 if (estadoLobo == 'I'&& estadoOveja == 'I' && estadoBarco == 'D'){
-                    System.out.println(perder);
-                    root.getChildren().add(derrota);
-                    root.getChildren().add(reinic);
+                    mostrarTexto(textPerder, 425, 180, 100);
+                    mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = true;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
                     temp.setText(String.valueOf(segundos));
@@ -302,18 +289,16 @@ public class Main extends Application {
                 }
                 
                 if (estadoLobo == 'D'&& estadoOveja == 'D' && estadoBarco == 'I'){
-                    System.out.println(perder);
-                    root.getChildren().add(derrota);
-                    root.getChildren().add(reinic);
+                    mostrarTexto(textPerder, 425, 180, 100);
+                    mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = true;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
                     temp.setText(String.valueOf(segundos));
                     this.stop();
                 }
                 if (estadoCol == 'I'&& estadoOveja == 'I' && estadoBarco == 'D'){
-                    System.out.println(perder);
-                    root.getChildren().add(derrota);
-                    root.getChildren().add(reinic);
+                    mostrarTexto(textPerder, 425, 180, 100);
+                    mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = true;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
                     temp.setText(String.valueOf(segundos));
@@ -321,18 +306,16 @@ public class Main extends Application {
                     
                 }
                 if (estadoCol == 'D'&& estadoOveja == 'D' && estadoBarco == 'I'){
-                    root.getChildren().remove(derrota);
-                    root.getChildren().add(derrota);
-                    root.getChildren().add(reinic);
+                    mostrarTexto(textPerder, 425, 180, 100);
+                    mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = true;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
                     temp.setText(String.valueOf(segundos));
                     this.stop();
                 }
                 if (estadoLobo == 'D' && estadoCol == 'D'&& estadoOveja == 'D' && estadoBarco == 'D'){
-                    System.out.println(ganar);
-                    root.getChildren().add(victoria);
-                    root.getChildren().add(reinic);
+                    mostrarTexto(textGanar, 425, 180, 100);
+                    mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = false;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
                     temp.setText(String.valueOf(segundos));
@@ -498,13 +481,13 @@ public class Main extends Application {
                     imageViewCol.setY(posColY);
                     imageViewCol.setFitHeight(TamañoCol);
                     imageViewCol.setFitWidth(TamañoCol);
+                    root.getChildren().remove(textGanar);
+                    root.getChildren().remove(textPerder);
+                    root.getChildren().remove(textReinicio);
                     estadoLobo = 'I';
                     estadoBarco = 'I';
                     estadoOveja = 'I';
                     estadoCol = 'I';
-                    root.getChildren().remove(reinic);
-                    root.getChildren().remove(derrota);
-                    root.getChildren().remove(victoria);
                     puntuacion ++;
                     segundos = 0;
                     colisionDecha = false;
@@ -530,4 +513,6 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }   
+
+    
 }
