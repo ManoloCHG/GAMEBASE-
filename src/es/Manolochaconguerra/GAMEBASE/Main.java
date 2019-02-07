@@ -146,18 +146,18 @@ public class Main extends Application {
         ImageView imageViewbarquero = new ImageView(barquero);
         //Posicion de la imagen
         // Variable Posicion Col
-        final int posIzdaColX = 210;
-        final int posColY = 480;
-        final int posDechaColX = 1210;
-        final int TamañoCol = 35;
+        final int POSIZDACOLX = 210;
+        final int POSCOLY = 480;
+        final int POSDECHACOLX = 1210;
+        final int TAMAÑOCOL = 35;
         //Variable Posicion oveja
-        final int posIzdaOvejaX = 150;
-        final int posOvejaY = 460;
-        final int posDechaOvejaX = 1120;
+        final int POSIZDAOVEJAX = 150;
+        final int POSOVEJAY = 460;
+        final int POSDECHAOVEJAX = 1120;
         //Variable Posicion Lobo
-        final int posIzdaLoboX = 50;
-        final int posLoboY = 455;
-        final int posDechaLoboX = 1020;
+        final int POSIZDALOBOX = 50;
+        final int POSLOBOY = 455;
+        final int POSDECHALOBOX = 1020;
         //Fondo
         imageViewfondo.setX(00);
         imageViewfondo.setY(00);
@@ -171,16 +171,16 @@ public class Main extends Application {
         Orillaizd.setVisible(false);
         Orilladecha.setVisible(false);
         //Oveja
-        imageViewSheep.setX(posIzdaOvejaX);
-        imageViewSheep.setY(posOvejaY);
+        imageViewSheep.setX(POSIZDAOVEJAX);
+        imageViewSheep.setY(POSOVEJAY);
         //Lobo
-        imageViewHowl.setX(posIzdaLoboX);
-        imageViewHowl.setY(posLoboY);
+        imageViewHowl.setX(POSIZDALOBOX);
+        imageViewHowl.setY(POSLOBOY);
         //Col
-        imageViewCol.setX(posIzdaColX);
-        imageViewCol.setY(posColY);
-        imageViewCol.setFitHeight(TamañoCol);
-        imageViewCol.setFitWidth(TamañoCol);
+        imageViewCol.setX(POSIZDACOLX);
+        imageViewCol.setY(POSCOLY);
+        imageViewCol.setFitHeight(TAMAÑOCOL);
+        imageViewCol.setFitWidth(TAMAÑOCOL);
         //barquero
         imageViewbarquero.setFitHeight(100);
         imageViewbarquero.setFitWidth(100);
@@ -229,8 +229,8 @@ public class Main extends Application {
                     root.getChildren().remove(imageViewCol);
                     lancha.getChildren().remove(imageViewCol);
                     root.getChildren().add(imageViewCol);
-                    imageViewCol.setX(posDechaColX);
-                    imageViewCol.setY(posColY);
+                    imageViewCol.setX(POSDECHACOLX);
+                    imageViewCol.setY(POSCOLY);
                     estadoCol = 'D';
                 }
                 //col izquierda
@@ -238,8 +238,8 @@ public class Main extends Application {
                     root.getChildren().remove(imageViewCol);
                     lancha.getChildren().remove(imageViewCol);
                     root.getChildren().add(imageViewCol);
-                    imageViewCol.setX(posIzdaColX);
-                    imageViewCol.setY(posColY);
+                    imageViewCol.setX(POSIZDACOLX);
+                    imageViewCol.setY(POSCOLY);
                     estadoCol = 'I'; 
                 }
                 //Oveja derecha
@@ -247,8 +247,8 @@ public class Main extends Application {
                     root.getChildren().remove(imageViewSheep);
                     lancha.getChildren().remove(imageViewSheep);
                     root.getChildren().add(imageViewSheep);
-                    imageViewSheep.setX(posDechaOvejaX);
-                    imageViewSheep.setY(posOvejaY);
+                    imageViewSheep.setX(POSDECHAOVEJAX);
+                    imageViewSheep.setY(POSOVEJAY);
                     estadoOveja = 'D';
                 }
                 //Oveja izquierda
@@ -256,8 +256,8 @@ public class Main extends Application {
                     root.getChildren().remove(imageViewSheep);
                     lancha.getChildren().remove(imageViewSheep);
                     root.getChildren().add(imageViewSheep);
-                    imageViewSheep.setX(posIzdaOvejaX);
-                    imageViewSheep.setY(posOvejaY);
+                    imageViewSheep.setX(POSIZDAOVEJAX);
+                    imageViewSheep.setY(POSOVEJAY);
                     estadoOveja = 'I'; 
                 }
                 //Lobo derecha
@@ -265,8 +265,8 @@ public class Main extends Application {
                     root.getChildren().remove(imageViewHowl);
                     lancha.getChildren().remove(imageViewHowl);
                     root.getChildren().add(imageViewHowl);
-                    imageViewHowl.setX(posDechaLoboX);
-                    imageViewHowl.setY(posLoboY);
+                    imageViewHowl.setX(POSDECHALOBOX);
+                    imageViewHowl.setY(POSLOBOY);
                     estadoLobo = 'D';
                 }
                 //Lobo izquierda
@@ -274,8 +274,8 @@ public class Main extends Application {
                     root.getChildren().remove(imageViewHowl);
                     lancha.getChildren().remove(imageViewHowl);
                     root.getChildren().add(imageViewHowl);
-                    imageViewHowl.setX(posIzdaLoboX);
-                    imageViewHowl.setY(posLoboY);
+                    imageViewHowl.setX(POSIZDALOBOX);
+                    imageViewHowl.setY(POSLOBOY);
                     estadoLobo = 'I'; 
                 }
                 //Restricciones y Mensaje 
@@ -471,16 +471,16 @@ public class Main extends Application {
                     lancha.setLayoutX(navegarX);
                     lancha.setLayoutY(navegarY);
                     //Oveja
-                    imageViewSheep.setX(posIzdaOvejaX);
-                    imageViewSheep.setY(posOvejaY);
+                    imageViewSheep.setX(POSIZDAOVEJAX);
+                    imageViewSheep.setY(POSOVEJAY);
                     //Lobo
-                    imageViewHowl.setX(posIzdaLoboX);
-                    imageViewHowl.setY(posLoboY);
+                    imageViewHowl.setX(POSIZDALOBOX);
+                    imageViewHowl.setY(POSLOBOY);
                     //Col
-                    imageViewCol.setX(posIzdaColX);
-                    imageViewCol.setY(posColY);
-                    imageViewCol.setFitHeight(TamañoCol);
-                    imageViewCol.setFitWidth(TamañoCol);
+                    imageViewCol.setX(POSIZDACOLX);
+                    imageViewCol.setY(POSCOLY);
+                    imageViewCol.setFitHeight(TAMAÑOCOL);
+                    imageViewCol.setFitWidth(TAMAÑOCOL);
                     root.getChildren().remove(textGanar);
                     root.getChildren().remove(textPerder);
                     root.getChildren().remove(textReinicio);
