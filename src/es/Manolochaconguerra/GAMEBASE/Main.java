@@ -280,7 +280,9 @@ public class Main extends Application {
                 }
                 //Restricciones y Mensaje 
                 if (estadoLobo == 'I'&& estadoOveja == 'I' && estadoBarco == 'D'){
+                    root.getChildren().remove(textPerder);
                     mostrarTexto(textPerder, 425, 180, 100);
+                    root.getChildren().remove(textReinicio);
                     mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = true;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
@@ -289,7 +291,9 @@ public class Main extends Application {
                 }
                 
                 if (estadoLobo == 'D'&& estadoOveja == 'D' && estadoBarco == 'I'){
+                    root.getChildren().remove(textPerder);
                     mostrarTexto(textPerder, 425, 180, 100);
+                    root.getChildren().remove(textReinicio);
                     mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = true;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
@@ -297,7 +301,9 @@ public class Main extends Application {
                     this.stop();
                 }
                 if (estadoCol == 'I'&& estadoOveja == 'I' && estadoBarco == 'D'){
+                    root.getChildren().remove(textPerder);
                     mostrarTexto(textPerder, 425, 180, 100);
+                    root.getChildren().remove(textReinicio);
                     mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = true;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
@@ -306,7 +312,9 @@ public class Main extends Application {
                     
                 }
                 if (estadoCol == 'D'&& estadoOveja == 'D' && estadoBarco == 'I'){
+                    root.getChildren().remove(textPerder);
                     mostrarTexto(textPerder, 425, 180, 100);
+                    root.getChildren().remove(textReinicio);
                     mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = true;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
@@ -314,7 +322,9 @@ public class Main extends Application {
                     this.stop();
                 }
                 if (estadoLobo == 'D' && estadoCol == 'D'&& estadoOveja == 'D' && estadoBarco == 'D'){
+                    root.getChildren().remove(textGanar);
                     mostrarTexto(textGanar, 425, 180, 100);
+                    root.getChildren().remove(textReinicio);
                     mostrarTexto(textReinicio, 325, 270, 60);
                     gameover = false;
                     segundos = ChronoUnit.SECONDS.between(inicial ,actual);
